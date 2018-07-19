@@ -12,76 +12,84 @@ console.log ("solon")
 
   
 
-   // Randomly chooses a choice from the options array.  This is the Computer's guess.
+    // Randomly chooses a choice from the options array.  This is the Computer's guess.
    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-// This function runs whenever the user presses a key 
-document.onkeyup = function (event) {// Determines which key pressed.
+    //Allows 10 guesses
+    function updateGuessesLeft() {
+        document.querySelector('#guessesLeft').innerHTML = "guesses left: " + guessesLeft;
+    };
+
+    function updateLetterToGuess() {
+        this.letterToGuess = this.computerChoices[Math.floor(Math.random() * this.computerChoices.length)];
+    };
+
+
+    function updateGuessesSoFar() {
+    // Display the letters selected by the user. 
+        document.querySelector('#let').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
+    };
+
+    // Function will be called when we reset everything
+    var reset = function () {
+        totalGuesses = 10;
+        guessesLeft = 10;
+        guessedLetters = [];
+
+        updateLetterToGuess();
+        updateGuessesLeft();
+        updateGuessesSoFar();
+    }
+
+        updateLetterToGuess();
+        updateGuessesLeft();
+
+    // This function runs whenever the user presses a key 
+    document.onkeyup = function (event) {
     var userGuess = event.key; 
     // var lowerGuess = String.fromCharCode(event.keyCode).toLowerCase();
     
-
     if (userGuess === computerGuess) {
         alert("That was Correct!");
         
-    } else if (userGuess !== computerGuess) {
-        alert("That was incorrect...Try again?")
-        //When users choose an alphabet char then update guesses left and add users guess to the array of guessed letters
     }
+    else if (userGuess !== computerGuess) {
+        guessesLeft--;
+        guessedLetters.push(userGuess);
+        updateGuessesLeft();
+        updateGuessesSoFar();
+
+    if (guessesLeft > 0) {
+            if (userGuess == letterToGuess) {
+                wins++;
+                document.querySelector('#wins').innerHTML = "Wins: " + wins;
+                userGuess = userGuess.toUpperCase();
+                alert("Yes, you are psychic!");
+                reset();    
+    }        } else if (guessesLeft === 0) {
+        losses++;
+        document.querySelector('#losses').innerHTML = "Losses: " + losses;
+        alert("Sorry, you're not psychic, try again?");
+
+        // Start Over. 
+        reset();
+    }
+
+};
 }
-//         guessesLeft--;
-//         guessedLetters.push(userGuess);
-//         updateGuessesLeft();
-//         updateGuessesSoFar();
-       
+     
+      
 
-//         if (guessesLeft > 0) {
-//             if (userGuess == letterToGuess) {
-//                 wins++;
-//                 document.querySelector('#wins').innerHTML = "Wins: " + wins;
-//                 userGuess = userGuess.toUpperCase();
-//                 alert("Yes, you are psychic! " + userGuess);
-//                 reset();
-//             }
-//         } else if (guessesLeft == 0) {
-//             losses++;
-//             document.querySelector('#losses').innerHTML = "Losses: " + losses;
-//             alert("Sorry, you're not psychic, try again?");
 
-//             // reset the game. 
-//             reset();
-//         }
 
-//     };
+
 
  
 
-//     //Allows 10 guesses
-//     function updateGuessesLeft() {
-//         document.querySelector('#guessesLeft').innerHTML = "Guesses left: " + guessesLeft;
-//     };
 
-//     function updateLetterToGuess() {
-//         this.letterToGuess = this.computerChoices[Math.floor(Math.random() * this.computerChoices.length)];
-//     };
 
-//     function updateGuessesSoFar() {
-//         // Here we take the guesses the user has tried -- then display it as letters separated by commas. 
-//         document.querySelector('#let').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
-//     };
-//     // Function will be called when we reset everything
-//     var reset = function () {
-//         totalGuesses = 10;
-//         guessesLeft = 10;
-//         guessedLetters = [];
 
-//         updateLetterToGuess();
-//         updateGuessesLeft();
-//         updateGuessesSoFar();
-//     }
 
-//     updateLetterToGuess();
-//     updateGuessesLeft();
 
 
 
